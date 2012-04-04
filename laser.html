@@ -1,0 +1,131 @@
+<!DOCTYPE HTML>
+<html lang="en">
+	<head>
+		<title>Lasers!</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<style type="text/css">
+			body { background-color: #000000; margin: 0px; overflow: hidden; }
+		</style>
+		
+		
+		<script type="text/javascript" src="lib/Colors/colors.js"></script>
+		
+	</head>
+	<body>
+
+		<div id="container"></div>
+
+		<script type="text/javascript">
+
+			function Source(x, y, color) {
+				this.x = x;
+				this.y = y;
+				this.color = color;
+			}
+
+
+			var container, canvas, context;
+			var WIDTH, HEIGHT;
+
+			var sources, mouseX, mouseY;
+			
+			/* Initialize all variables */
+			init();
+			
+			/* Repeats the function specified at the given interval */
+			setInterval(loop, 1000/60);
+
+			function init() {
+			
+				container = document.getElementById('container');
+
+				WIDTH = window.innerWidth;
+				HEIGHT = window.innerHeight;
+
+				var canvas = document.createElement("canvas");
+				canvas.width = WIDTH;
+				canvas.height = HEIGHT;
+				container.appendChild(canvas);
+
+				context = canvas.getContext("2d");
+				context.fillStyle = "rgb(0, 0, 0)";
+				context.fillRect (0, 0, WIDTH, HEIGHT);
+
+				sources = new Array();
+
+				 // Four corners
+				sources.push(new Source(0, 0, Colors.rand('hex')));
+				sources.push(new Source(WIDTH, 0, Colors.rand('hex')));
+				sources.push(new Source(WIDTH, HEIGHT, Colors.rand('hex')));
+				sources.push(new Source(0, HEIGHT, Colors.rand('hex')));
+				
+
+				/*
+				// Bottom row
+				var num = 4;
+				for (var i = 0; i < num; i++) {
+					var x = (i/(num - 1)) * WIDTH;
+					sources.push(new Source(x, HEIGHT, Colors.rand('hex')));
+					sources.push(new Source(x, 0, Colors.rand('hex')));
+				}
+*/
+
+				mouseX = WIDTH/2;
+				mouseY = HEIGHT/2;
+
+				window.addEventListener('mousemove', onWindowMouseMove, false);
+				window.addEventListener('click', onWindowMouseClick, false);
+				
+			}
+
+			function onWindowMouseMove(event) {
+			
+				mouseX = event.clientX;
+				mouseY = event.clientY;
+				
+			}
+
+			function onWindowMouseClick(event) {
+				for (var i = 0; i < sources.length; i++) {
+					var source = sources[i];
+					source.color = Colors.rand('hex');
+				}
+			}
+
+			function loop() {
+
+
+				for (var i = 0; i < sources.length; i++) {
+					context.beginPath();
+					var source = sources[i];
+					
+					/* Update the color (cycles through spectrum) */
+
+					/* Draw line connecting laser to source */
+					var dx = mouseX - source.x;
+					var dy = mouseY - source.y;
+
+					context.moveTo(source.x, source.y);
+					
+					var x = source.x + (1000 * dx);
+					var y = source.y + (1000 * dy);
+
+					context.lineTo(x, y);
+				
+					context.strokeStyle = source.color; // Draw in the laser's color
+					context.stroke();
+					context.closePath();
+				}
+
+
+				/* Cover with a semi-transparent layer, for "fade out" effect */
+				context.fillStyle = "rgba(0, 0, 0, .1)";
+				context.fillRect (0, 0, WIDTH, HEIGHT);
+			}
+
+
+		
+		</script>
+	</body>
+???
