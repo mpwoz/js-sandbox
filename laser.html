@@ -73,7 +73,7 @@
 				var num = 7;
 				for (var i = 0; i < num; i++) {
 					var x = (i/(num - 1)) * WIDTH;
-					sources.push(new Source(x, 0, Colors.rand('hex')));
+					sources.push(new Source(x, 0, randColor()));
 				}
 
 
@@ -95,7 +95,7 @@
 			function onWindowMouseClick(event) {
 				for (var i = 0; i < sources.length; i++) {
 					var source = sources[i];
-					source.color = Colors.rand('hex');
+					source.color = randColor();
 				}
 			}
 
@@ -126,12 +126,19 @@
 
 
 				/* Cover with a semi-transparent layer, for "fade out" effect */
-				context.fillStyle = "rgba(0, 0, 0, .1)";
+				context.fillStyle = "rgba(0, 0, 0, .2)";
 				context.fillRect (0, 0, WIDTH, HEIGHT);
 			}
-
-
+		
+			function randColor() {
+				var col = Colors.rand('rgb').a;
+				col[0] = 255;
+				col[1] = col[1];
+				col[2] = col[2];
+				return Colors.rgb2hex(col);
+			}
 		
 		</script>
 	</body>
-???
+
+
