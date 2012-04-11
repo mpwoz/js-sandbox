@@ -37,7 +37,7 @@ function init() {
 	container.appendChild(canvas);
 
 	context = canvas.getContext("2d");
-	context.fillStyle = "rgb(0, 0, 0)";
+	context.fillStyle = "rgb(200, 0, 0)";
 	context.fillRect (0, 0, WIDTH, HEIGHT);
 
 	if(window.addEventListener) window.addEventListener('keypress', onKeypress, false); else if(window.attachEvent) window.attachEvent('onkeypress', onKeypress); else window.onkeypress = onKeypress;
@@ -48,7 +48,7 @@ function init() {
 /** Game loop */
 function loop() {
 	context.fillStyle = "rgb(200, 0 0);
-	context.fillRect (0, 0, WIDTH, HEIGHT);
+	context.fillRect(0, 0, WIDTH, HEIGHT);
 	document.title = "Hello";
 }
 
